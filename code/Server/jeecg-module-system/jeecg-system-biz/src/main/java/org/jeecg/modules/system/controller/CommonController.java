@@ -234,7 +234,7 @@ public class CommonController {
                 throw new RuntimeException("文件["+imgPath+"]不存在..");
             }
             // 设置强制下载不打开
-            response.setContentType("application/force-download");
+            response.setContentType("application/zip");
             response.addHeader("Content-Disposition", "attachment;fileName=" + new String(file.getName().getBytes("UTF-8"),"iso-8859-1"));
             inputStream = new BufferedInputStream(new FileInputStream(filePath));
             outputStream = response.getOutputStream();

@@ -1,5 +1,5 @@
 {
-    "name" : "littermonster",
+    "name" : "龙佰智能工时系统",
     "appid" : "__UNI__0DF0C7A",
     "description" : "",
     "versionName" : "2.2.22",
@@ -65,7 +65,7 @@
     "quickapp" : {},
     /* 快应用特有相关 */
     "mp-weixin" : {
-        "appid" : "wx0dd103502a348d5d",
+        "appid" : "wx944706d11b2c37b5",
         "setting" : {
             "urlCheck" : false,
             "es6" : true
@@ -75,8 +75,8 @@
                 "desc" : "有定位功能需要导航定位"
             }
         },
-        "optimization": {
-            "subPackages": true
+        "optimization" : {
+            "subPackages" : true
         }
     },
     "h5" : {

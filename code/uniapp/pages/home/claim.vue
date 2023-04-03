@@ -42,6 +42,7 @@
                                                 type="digit" :maxlength='5' required v-model="form.work_time"
                                                 placeholder="请输入认领时长"></uni-easyinput>
                                         </view>
+                                        <view class="text-sm"><text>输入框中是剩余工时</text></view>
 
                                     </uni-forms-item>
                                 </uni-forms>
@@ -60,58 +61,10 @@
                                     </uni-row>
                                 </view>
 
-                                <!-- <form @submit="formSubmit" @reset="formReset">
-                                    <view class="uni-form-item uni-column">
-                                        <view class="title">认领工时</view>
-                                        <view>
-                                            <input class="uni-input" type="number" :min='0' :max='process.time_quota'
-                                                v-model="claimTime" placeholder="请输入认领时长">
-                                            </input>
-                                        </view>
-                                    </view>
-                                    <view class="uni-form-item uni-column" style="margin-top: 50upx;">
-                                        <uni-row :gutter="20">
-                                            <uni-col :span="6" :offset="6">
-                                                <view>
-                                                    <button type="default" plain="true" @click="cancel">取消</button>
-                                                </view>
-                                            </uni-col>
-                                            <uni-col :span="6">
-                                                <view>
-                                                    <button type="primary" plain="true" @click="submit">提交</button>
-                                                </view>
-                                            </uni-col>
-                                        </uni-row>
-
-
-                                    </view>
-                                </form> -->
                             </uni-card>
 
                         </view>
 
-                        <!-- <uni-section>
-                            <uni-card :is-shadow="false" is-full>
-                                <uni-row>
-                                    <uni-col :span='2'>
-                                        <view class="text-xl cuIcon-write"></view>
-                                    </uni-col>
-                                    <uni-col :span='18'>
-                                        <view class="text-df text-cut bg-white" style="width: 250px;">
-                                            {{process.proc_content}}
-                                        </view>
-                                    </uni-col>
-                                    <uni-col class="center" :span='4'>
-                                        <view class="center text-xl ">
-                                            <text class="quota">{{process.time_quota}}</text>
-                                            <text class="quota text-lg">小时</text>
-                                        </view>
-                                    </uni-col>
-                                </uni-row>
-
-
-                            </uni-card>
-                        </uni-section> -->
                     </view>
                 </view>
 
@@ -143,7 +96,8 @@
                     work_time: 0,
                     user_id: null,
                     user_name: null
-                }
+                },
+                partLeftTime: 0
             }
         },
         onLoad(option) {
@@ -160,8 +114,12 @@
             // console.log("初始值")
             // this.form.claim_time = this.process.time_quota
             // console.log(this.claimTime)
-            console.log("SSSSSSSSSSSSSSSSSSSS")
-            console.log(this.form)
+            api.getPartLeftTime(this.form.craft_detail_id, this.form.part_no).then(res => {
+                this.partLeftTime = res.data.result
+                if (this.partLeftTime >= 0) {
+                    this.form.work_time = this.partLeftTime
+                }
+            })
         },
         methods: {
             formSubmit: function(e) {
@@ -182,22 +140,12 @@
                 this.$refs.popup.close()
             },
             confirm(value) {
-                // 输入框的值
-                console.log(this.claimTime)
-
-                // TODO 做一些其他的事情，手动执行 close 才会关闭对话框
-                // ...
                 this.form.claim_time = this.formatDate(new Date, 'yyyy-MM-dd hh:mm:ss')
-                console.log('@@@@@@@@@@@@@@@@@@@@@')
-                console.log(this.$store.getters.userid, "**************")
                 api.saveClaim(this.form).then(res => {
                     this.$tip.success('提交成功!')
                     this.goPage('people', {})
                     this.$refs.popup.close()
                 })
-                // this.$tip.success('提交成功!')
-                // this.goPage('people', {})
-                // this.$refs.popup.close()
             },
             goPage(page, params) {
                 this.$Router.push({
@@ -210,6 +158,20 @@
                 this.$Router.back(1)
             },
             submit() {
+                api.validateLeftTime(this.form.craft_detail_id, this.form.part_no, this.form.work_time).then(res => {
+                    if (! res.data.result) {
+                        this.$tip.alert(res.data.message)
+                        return
+                    }
+                })
+                if (this.form.work_time <= 0) {
+                    this.$tip.alert(`输入工时非法`)
+                    return;
+                }
+                if (this.form.work_time > this.partLeftTime) {
+                    this.$tip.alert(`可选工时为${this.partLeftTime}`)
+                    return;
+                }
                 this.open()
 
             },
@@ -231,9 +193,6 @@
                             o[k]).length)));
                 return fmt;
             },
-            getUserInfo() {
-                
-            }
         }
     }
 </script>

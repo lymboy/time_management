@@ -53,6 +53,12 @@ const apiService = {
     },
     getClaimList(params) {
         return http.get(`/online/cgform/api/getData/1639536803344105474?hasQuery=true&column=id&order=asc&pageNo=${params.current}&pageSize=${params.pageSize}&_t=${Date.now()}`)
+    },
+    getPartLeftTime(processId, partNo) {
+        return http.get(`/wkt/claim/partLeftTime?processId=${processId}&partNo=${partNo}`)
+    },
+    validateLeftTime(processId, partNo, workTime) {
+        return http.get(`/wkt/claim/validateLeftTime?processId=${processId}&partNo=${partNo}&workTime=${workTime}`)
     }
 };
 
