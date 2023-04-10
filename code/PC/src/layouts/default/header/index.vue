@@ -23,11 +23,11 @@
 
     <!-- action  -->
     <div :class="`${prefixCls}-action`">
-      <AppSearch :class="`${prefixCls}-action__item `" v-if="getShowSearch" />
+<!--      <AppSearch :class="`${prefixCls}-action__item `" v-if="getShowSearch" />-->
 
-      <ErrorAction v-if="getUseErrorHandle" :class="`${prefixCls}-action__item error-action`" />
+<!--      <ErrorAction v-if="getUseErrorHandle" :class="`${prefixCls}-action__item error-action`" />-->
 
-      <Notify v-if="getShowNotice" :class="`${prefixCls}-action__item notify-item`" />
+<!--      <Notify v-if="getShowNotice" :class="`${prefixCls}-action__item notify-item`" />-->
 
       <FullScreen v-if="getShowFullScreen" :class="`${prefixCls}-action__item fullscreen-item`" />
 
@@ -101,7 +101,7 @@
       const { getShowTopMenu, getShowHeaderTrigger, getSplit, getIsMixMode, getMenuWidth, getIsMixSidebar } = useMenuSetting();
       const { getUseErrorHandle, getShowSettingButton, getSettingButtonPosition } = useRootSetting();
       const { title } = useGlobSetting();
-      
+
       const {
         getHeaderTheme,
         getShowFullScreen,
@@ -218,19 +218,19 @@
   //update-begin---author:scott ---date:2022-09-30  for：默认隐藏顶部菜单面包屑-----------
   //顶部欢迎语展示样式
   @prefix-cls: ~'@{namespace}-layout-header';
-  
+
   .@{prefix-cls} {
     display: flex;
     padding: 0 8px;
     align-items: center;
-    
+
     .headerIntroductionClass {
       margin-right: 4px;
       margin-bottom: 2px;
       border-bottom: 0px;
       border-left: 0px;
     }
-    
+
     &--light {
       .headerIntroductionClass {
         color: @breadcrumb-item-normal-color;

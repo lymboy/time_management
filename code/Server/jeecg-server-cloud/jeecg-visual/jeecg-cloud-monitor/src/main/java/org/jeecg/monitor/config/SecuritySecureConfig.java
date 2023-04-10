@@ -30,6 +30,8 @@ public class SecuritySecureConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 //静态文件允许访问
                 .antMatchers(adminContextPath + "/assets/**").permitAll()
+                .antMatchers(adminContextPath + "/wkt/craft/downloadQR/**").permitAll()
+                .antMatchers("/wkt/craft/downloadQR/**").permitAll()
                 //登录页面允许访问
                 .antMatchers(adminContextPath + "/login", "/css/**", "/js/**", "/image/*").permitAll()
                 //其他所有请求需要登录

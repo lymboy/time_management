@@ -100,6 +100,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/sys/checkAuth", "anon"); //授权接口排除
 
 
+        filterChainDefinitionMap.put("/wkt/craft/downloadQR", "anon"); //二维码下载
+
+
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/doc.html", "anon");
         filterChainDefinitionMap.put("/**/*.js", "anon");
